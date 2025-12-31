@@ -109,14 +109,6 @@ Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything).
 **Optional** Path to a config file (YAML or pyproject.toml) for bandit. 
 Use this to specify a bandit.yaml or pyproject.toml configuration file with the `-c` flag.
 
-Example:
-```yaml
-    uses: DevSecNinja/bandit-action@v1
-    with: 
-        path: "."
-        config_path: "bandit.yaml"
-```
-
 ## Outputs
 
 The action will create an artifact containing the sarif output.
