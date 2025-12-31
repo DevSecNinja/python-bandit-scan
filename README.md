@@ -1,4 +1,4 @@
-# Bandit Scan
+# Bandit Scanner
 
 Run Python [Bandit](https://github.com/PyCQA/bandit) scan on your codebase.
 
