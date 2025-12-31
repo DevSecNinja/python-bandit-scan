@@ -1,5 +1,5 @@
-name: 'Bandit Scan'
-description: 'Bandit Scan'
+name: 'Bandit Scanner'
+description: 'Run a Bandit scan to find security issues in your Python code'
 branding:
   icon: arrow-left
   color: purple
