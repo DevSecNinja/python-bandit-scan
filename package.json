@@ -1,0 +1,26 @@
+{
+  "name": "python-bandit-scan",
+  "version": "0.0.0-development",
+  "description": "Run Python Bandit scan on your codebase",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shundor/python-bandit-scan.git"
+  },
+  "keywords": [
+    "bandit",
+    "security",
+    "python",
+    "github-actions"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shundor/python-bandit-scan/issues"
+  },
+  "homepage": "https://github.com/shundor/python-bandit-scan#readme",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^24.0.0"
+  }
+}
