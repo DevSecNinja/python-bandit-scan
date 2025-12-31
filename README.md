@@ -18,12 +18,49 @@ The fork includes the following new features:
 To run a bandit scan include a step like this:
 
 ```yaml
-    uses: DevSecNinja/bandit-action@v1
-    with: 
-        path: "."
-        level: high
-        confidence: high
-        exit_zero: true           
+name: Bandit Security Scanner
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+  schedule:
+    - cron: '36 6 * * 0'
+
+permissions:
+  contents: read
+
+jobs:
+  bandit:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      #actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Bandit Scanner
+        uses: DevSecNinja/python-bandit-scan@v1.0.0
+        with: # optional arguments
+          # exit with 0, even with results found
+          exit_zero: true # optional, default is DEFAULT
+          # Github token of the repository (automatically created by Github)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
+          # File or directory to run bandit on
+          # path: # optional, default is .
+          # Report only issues of a given severity level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)
+          # level: # optional, default is UNDEFINED
+          # Report only issues of a given confidence level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)
+          # confidence: # optional, default is UNDEFINED
+          # comma-separated list of paths (glob patterns supported) to exclude from scan (note that these are in addition to the excluded paths provided in the config file) (default: .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg)
+          # excluded_paths: # optional, default is DEFAULT
+          # comma-separated list of test IDs to skip
+          # skips: # optional, default is DEFAULT
+          # path to a .bandit file that supplies command line arguments
+          # config_path: bandit.yml # Use .bandit file for configuration
+
 ```
 
 ## Inputs
