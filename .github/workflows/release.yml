@@ -36,6 +36,7 @@ jobs:
     outputs:
       version: ${{ steps.get_version.outputs.version }}
       version_tag: ${{ steps.get_version.outputs.version_tag }}
+      major_version: ${{ steps.get_version.outputs.major_version }}
       is_prerelease: ${{ steps.check_prerelease.outputs.is_prerelease }}
     steps:
       - name: Checkout
@@ -47,12 +48,15 @@ jobs:
           TAG_NAME="${{ github.ref }}"
           VERSION="${TAG_NAME#refs/tags/}"
           VERSION_NUMBER="${VERSION#v}"
+          MAJOR_VERSION=$(echo "$VERSION_NUMBER" | cut -d. -f1)
           
           echo "version=$VERSION_NUMBER" >> $GITHUB_OUTPUT
           echo "version_tag=$VERSION" >> $GITHUB_OUTPUT
+          echo "major_version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
           
           echo "Extracted version: $VERSION_NUMBER"
           echo "Version tag: $VERSION"
+          echo "Major version: $MAJOR_VERSION"
 
       - name: Validate version format
         run: |
@@ -128,7 +132,7 @@ jobs:
 
             ```yaml
             - name: Run Bandit Scanner
-              uses: ${{ github.repository }}@v${{ needs.determine-version.outputs.version_tag | cut -d. -f1 }}
+              uses: ${{ github.repository }}@v${{ needs.determine-version.outputs.major_version }}
               with:
                 path: "."
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
