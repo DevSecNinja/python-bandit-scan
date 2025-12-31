@@ -1,4 +1,4 @@
-# Bandit Scan
+# Bandit Scanner
 
 Run Python [Bandit](https://github.com/PyCQA/bandit) scan on your codebase.
 
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Bandit Scanner
-        uses: DevSecNinja/python-bandit-scan@v1.0.0
+        uses: DevSecNinja/python-bandit-scan@v1
         with: # optional arguments
           # exit with 0, even with results found
           exit_zero: true # optional, default is DEFAULT
