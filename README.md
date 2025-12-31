@@ -6,6 +6,13 @@ Run Python [Bandit](https://github.com/PyCQA/bandit) scan on your codebase.
 
 Bandit is a tool designed to find common security issues in Python code. This action will run Bandit on your codebase. The results of the scan will be found under the Security tab of your repository.
 
+### Fork
+
+The fork includes the following new features:
+
+- Allow the use of a bandit config file besides the ini file
+- Automatic dependency updates by Renovate
+
 ## Usage
 
 To run a bandit scan include a step like this:
@@ -79,4 +86,5 @@ The action will create an artifact containing the sarif output.
 
 ## Credits
 
+- :bow: This is a fork of [python-bandit-scan](https://github.com/shundor/python-bandit-scan) by [shundor](https://github.com/shundor/).
 - :bow: This action is based on [bandit-action](https://github.com/mdegis/bandit-action) by [Melih Değiş](https://github.com/mdegis/).
