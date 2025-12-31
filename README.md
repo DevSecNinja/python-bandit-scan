@@ -11,7 +11,7 @@ Bandit is a tool designed to find common security issues in Python code. This ac
 To run a bandit scan include a step like this:
 
 ```yaml
-    uses: shundor/bandit-action@v1
+    uses: DevSecNinja/bandit-action@v1
     with: 
         path: "."
         level: high
@@ -59,6 +59,19 @@ Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything).
 ### `ini_path`
 
 **Optional** Path to a .bandit file that supplies command line arguments
+
+### `config_path`
+
+**Optional** Path to a config file (YAML or pyproject.toml) for bandit. 
+Use this to specify a bandit.yaml or pyproject.toml configuration file with the `-c` flag.
+
+Example:
+```yaml
+    uses: DevSecNinja/bandit-action@v1
+    with: 
+        path: "."
+        config_path: "bandit.yaml"
+```
 
 ## Outputs
 
