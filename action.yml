@@ -46,7 +46,7 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        pip install bandit bandit-sarif-formatter
+        pip install 'bandit[toml]' bandit-sarif-formatter
 
     - name: Run Bandit scan
       shell: bash
@@ -107,12 +107,11 @@ runs:
             INI_PATH="--ini $INPUT_INI_PATH"
         fi
 
-        if [ "$INPUT_CONFIG_PATH" == "DEFAULT" ]; then
-            CONFIG_PATH=""
-        else
-            CONFIG_PATH="-c $INPUT_CONFIG_PATH"
+        CONFIG_PATH_ARGS=()
+        if [ "$INPUT_CONFIG_PATH" != "DEFAULT" ] && [ -n "$INPUT_CONFIG_PATH" ]; then
+            CONFIG_PATH_ARGS=(-c "$INPUT_CONFIG_PATH")
         fi
-        bandit -f sarif -o results.sarif -r $INPUT_PATH $LEVEL $CONFIDENCE $EXCLUDED_PATHS $EXIT_ZERO $SKIPS $INI_PATH $CONFIG_PATH
+        bandit -f sarif -o results.sarif -r $INPUT_PATH $LEVEL $CONFIDENCE $EXCLUDED_PATHS $EXIT_ZERO $SKIPS $INI_PATH "${CONFIG_PATH_ARGS[@]}"
       env:
         INPUT_PATH: ${{ inputs.path }}
         INPUT_LEVEL: ${{ inputs.level }}
@@ -121,13 +120,14 @@ runs:
         INPUT_EXIT_ZERO: ${{ inputs.exit_zero }}
         INPUT_SKIPS: ${{ inputs.skips }}
         INPUT_INI_PATH: ${{ inputs.ini_path }}
-        INPUT_CONFIG_PATH: ${{ inputs.config_path }}        
+        INPUT_CONFIG_PATH: ${{ inputs.config_path }}
 
     - name: Upload artifact
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # main
       with:
         name: results.sarif
         path: results.sarif
+        overwrite: true
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3

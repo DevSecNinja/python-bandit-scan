@@ -8,10 +8,10 @@ Bandit is a tool designed to find common security issues in Python code. This ac
 
 ### Fork
 
-The fork includes the following new features:
+This fork retains its own branding and dependency automation while incorporating upstream fixes:
 
-- Allow the use of a bandit config file besides the ini file
-- Automatic dependency updates by Renovate
+- Support a Bandit YAML or TOML config file besides the ini file
+- Automatic dependency updates and SHA-pinned action dependencies managed by Renovate (rather than a second updater via Dependabot)
 
 ## Usage
 
@@ -45,7 +45,7 @@ jobs:
         uses: DevSecNinja/python-bandit-scan@v1
         with: # optional arguments
           # exit with 0, even with results found
-          exit_zero: true # optional, default is DEFAULT
+          exit_zero: true # optional, default is DEFAULT (exit with results-based value)
           # Github token of the repository (automatically created by Github)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
           # File or directory to run bandit on
@@ -59,7 +59,9 @@ jobs:
           # comma-separated list of test IDs to skip
           # skips: # optional, default is DEFAULT
           # path to a .bandit file that supplies command line arguments
-          # config_path: bandit.yml # Use .bandit file for configuration
+          # ini_path: .bandit
+          # path to a YAML or pyproject.toml configuration file
+          # config_path: bandit.yml
 
 ```
 
@@ -108,12 +110,14 @@ Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything).
 
 **Optional** Path to a config file (YAML or pyproject.toml) for bandit. 
 Use this to specify a bandit.yaml or pyproject.toml configuration file with the `-c` flag.
+Paths containing spaces are supported. Leave this unset, empty, or set to `"DEFAULT"` to omit the `-c` flag.
 
 ## Outputs
 
-The action will create an artifact containing the sarif output.
+The action will create an artifact containing the sarif output. An existing `results.sarif` artifact in the same workflow run is overwritten.
 
 ## Credits
 
 - :bow: This is a fork of [python-bandit-scan](https://github.com/shundor/python-bandit-scan) by [shundor](https://github.com/shundor/).
 - :bow: This action is based on [bandit-action](https://github.com/mdegis/bandit-action) by [Melih Değiş](https://github.com/mdegis/).
+- :bow: This action also includes fixes proposed by [Kenta Nakase](https://github.com/parroty) and [Thiago Grisolfi](https://github.com/Grisolfi) and ["MrFired"](https://github.com/MrFired) ... 🎉 but automated by [@dependabot[bot]](https://github.com/apps/dependabot)
