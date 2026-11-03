@@ -62,6 +62,10 @@ jobs:
           # ini_path: .bandit
           # path to a YAML or pyproject.toml configuration file
           # config_path: bandit.yml
+          # use a distinct artifact name to avoid collisions
+          # artifact_name: bandit-results
+          # fail on a name collision instead of deleting the existing artifact
+          # artifact_overwrite: 'false'
 
 ```
 
@@ -112,9 +116,32 @@ Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything).
 Use this to specify a bandit.yaml or pyproject.toml configuration file with the `-c` flag.
 Paths containing spaces are supported. Leave this unset, empty, or set to `"DEFAULT"` to omit the `-c` flag.
 
+### `artifact_name`
+
+**Optional** Name of the uploaded artifact. Use a distinct name for each scan in a matrix or workflow to avoid collisions.
+This does not change the local `results.sarif` filename or the file uploaded to code scanning.
+
+**Default** `"results.sarif"`
+
+### `artifact_overwrite`
+
+**Optional** Whether to replace an existing artifact with the same name in the workflow run.
+Set `"false"` to fail on a collision without deleting the existing artifact.
+
+**Default** `"true"`
+
 ## Outputs
 
-The action will create an artifact containing the sarif output. An existing `results.sarif` artifact in the same workflow run is overwritten.
+The action will create an artifact containing the SARIF output. By default, an existing `results.sarif` artifact in the same workflow run is overwritten.
+Use `artifact_name` to choose another name or `artifact_overwrite: 'false'` to disable replacement.
+
+## Testing
+
+After installing the action's dependencies (`pip install 'bandit[toml]' bandit-sarif-formatter`), run the metadata regression tests with:
+
+```shell
+python -m unittest discover -s tests -v
+```
 
 ## Credits
 

@@ -36,6 +36,14 @@ inputs:
     description: 'path to a config file (YAML or pyproject.toml) for bandit'
     required: false
     default: 'DEFAULT'
+  artifact_name:
+    description: 'Name of the uploaded SARIF artifact'
+    required: false
+    default: 'results.sarif'
+  artifact_overwrite:
+    description: 'Overwrite an existing artifact with the same name (true or false)'
+    required: false
+    default: 'true'
   GITHUB_TOKEN:
     description: 'Github token of the repository (automatically created by Github)'
     required: true
@@ -125,9 +133,9 @@ runs:
     - name: Upload artifact
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # main
       with:
-        name: results.sarif
+        name: ${{ inputs.artifact_name }}
         path: results.sarif
-        overwrite: true
+        overwrite: ${{ inputs.artifact_overwrite }}
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
