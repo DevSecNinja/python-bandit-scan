@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
 
 jobs:
@@ -15,4 +16,5 @@ jobs:
     uses: DevSecNinja/.github/.github/workflows/config-sync.yml@783a7a3a03ae71efcdf5b13eaea80efe26dfa641 # v2.2.0
     permissions:
       contents: write
+      issues: write
       pull-requests: write
