@@ -1,0 +1,35 @@
+---
+name: Release Please
+
+# Drives semver bumping via release-please. On every push to main this
+# workflow opens (or updates) a release PR with the next version's CHANGELOG
+# bump. Merging that PR creates the vX.Y.Z tag and GitHub release.
+#
+# Per-repo config: release-please-config.json and .release-please-manifest.json
+#
+# Needs the DevSecNinja Automation App credentials (AUTOMATION_APP_ID variable
+# and AUTOMATION_APP_PRIVATE_KEY secret, `production` environment); the
+# central workflow fails closed without them. See:
+# https://github.com/DevSecNinja/.github/blob/main/docs/release-please-onboarding.md
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    uses: DevSecNinja/.github/.github/workflows/release-please.yml@051efdb1e7bd730f80f077385cc7e6bbd6b0b807 # v4.3.0
+    permissions:
+      contents: write
+      pull-requests: write
+    secrets:
+      AUTOMATION_APP_PRIVATE_KEY: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
